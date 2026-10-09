@@ -88,7 +88,7 @@ export const createLabour = async (req, res) => {
       saveDB();
     }
 
-    console.log(`[AUDIT] Supervisor (${req.user?.workerId || 'system'}) Created Labour: ${workerId} at ${new Date().toISOString()}`);
+    console.log('[supervisor] authorized labour operation completed.')
 
     // Return the generated password so the supervisor can give it to the worker
     return res.status(201).json({
@@ -103,7 +103,7 @@ export const createLabour = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error creating labour:', error);
+    console.error('[supervisor] operation failed.')
     return res.status(500).json({ success: false, message: 'Server error creating labour', error: error.message });
   }
 };
@@ -130,7 +130,7 @@ export const getLabours = async (req, res) => {
       return res.status(200).json({ success: true, labours: workers });
     }
   } catch (error) {
-    console.error('Error fetching labours:', error);
+    console.error('[supervisor] operation failed.')
     return res.status(500).json({ success: false, message: 'Server error' });
   }
 };
@@ -159,7 +159,7 @@ export const updateLabour = async (req, res) => {
       worker.assignedMineLocation = assignedMineLocation || worker.assignedMineLocation;
 
       await worker.save();
-      console.log(`[AUDIT] Supervisor (${req.user?.workerId || 'system'}) Edited Labour: ${id} at ${new Date().toISOString()}`);
+      console.log('[supervisor] authorized labour operation completed.')
       return res.status(200).json({ success: true, message: 'Labour updated successfully', worker });
     } else {
       if (MEMORY_WORKERS[id] && MEMORY_WORKERS[id].role === 'labour') {
@@ -180,7 +180,7 @@ export const updateLabour = async (req, res) => {
       }
     }
   } catch (error) {
-    console.error('Error updating labour:', error);
+    console.error('[supervisor] operation failed.')
     return res.status(500).json({ success: false, message: 'Server error' });
   }
 };
@@ -207,7 +207,7 @@ export const updateLabourStatus = async (req, res) => {
         return res.status(404).json({ success: false, message: 'Labour not found' });
       }
 
-      console.log(`[AUDIT] Supervisor (${req.user?.workerId || 'system'}) ${status === 'ACTIVE' ? 'Reactivated' : 'Deactivated'} Labour: ${id} at ${new Date().toISOString()}`);
+      console.log('[supervisor] authorized labour operation completed.')
       return res.status(200).json({ success: true, message: `Labour marked as ${status}`, worker });
     } else {
       if (MEMORY_WORKERS[id] && MEMORY_WORKERS[id].role === 'labour') {
@@ -219,7 +219,7 @@ export const updateLabourStatus = async (req, res) => {
       }
     }
   } catch (error) {
-    console.error('Error updating labour status:', error);
+    console.error('[supervisor] operation failed.')
     return res.status(500).json({ success: false, message: 'Server error' });
   }
 };
@@ -242,7 +242,7 @@ export const resetLabourPassword = async (req, res) => {
       worker.mustChangePassword = true;
 
       await worker.save();
-      console.log(`[AUDIT] Supervisor (${req.user?.workerId || 'system'}) Reset Password for Labour: ${id} at ${new Date().toISOString()}`);
+      console.log('[supervisor] authorized labour operation completed.')
       return res.status(200).json({ 
         success: true, 
         message: 'Password reset successfully', 
@@ -266,7 +266,7 @@ export const resetLabourPassword = async (req, res) => {
       }
     }
   } catch (error) {
-    console.error('Error resetting password:', error);
+    console.error('[supervisor] operation failed.')
     return res.status(500).json({ success: false, message: 'Server error' });
   }
 };

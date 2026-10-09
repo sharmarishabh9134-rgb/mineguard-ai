@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { offlineSyncEngine } from '../../services/offlineSync'
 import { deviceLocationTracker } from '../../services/locationTracker'
+import { apiFetch } from '../../services/apiUrl'
 import WeatherWidget from '../WeatherWidget'
 import LabourDocuments from './LabourDocuments'
 import WorkerSafetyVision from './WorkerSafetyVision'
@@ -35,7 +36,7 @@ export default function LabourMobileSafetyApp() {
         if (!token) return;
         // Basic decode of JWT to get workerId
         const payload = JSON.parse(atob(token.split('.')[1]));
-        const res = await fetch(`/api/auth/profile/${payload.workerId}`, {
+        const res = await apiFetch(`/api/auth/profile/${payload.workerId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -121,7 +122,7 @@ export default function LabourMobileSafetyApp() {
     }
     try {
       const token = localStorage.getItem('mineguard_jwt_token') || ''
-      const res = await fetch('/api/labour/concerns', {
+      const res = await apiFetch('/api/labour/concerns', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -130,10 +131,13 @@ export default function LabourMobileSafetyApp() {
         body: JSON.stringify({ type: concernType, title: concernTitle, message: complaintText, location: concernLocation, photo: concernPhoto })
       })
       
-      const data = await res.json().catch(() => null);
+      const contentType = res.headers.get('content-type') || ''
+      const data = contentType.includes('application/json')
+        ? await res.json().catch(() => null)
+        : null
       
-      if (res.ok && (data?.success || data)) {
-        setComplaintMsg(data?.persisted === false ? '✓ Sent to the supervisor inbox (temporary server memory; MongoDB is offline).' : '✓ Sent to your supervisor.')
+      if (res.ok && data?.success === true) {
+        setComplaintMsg(data.persisted === false ? '✓ Accepted temporarily; MongoDB is offline, so it may not survive a server restart.' : '✓ Sent to your supervisor.')
         setComplaintText('')
         setConcernTitle('')
         setConcernPhoto(null)
@@ -141,17 +145,17 @@ export default function LabourMobileSafetyApp() {
       } else {
         if (res.status === 401 || res.status === 403) {
           setComplaintMsg('Unauthorized: You do not have permission to submit complaints.')
-        } else if (res.status >= 500 || res.status === 504 || res.status === 502) {
-          setComplaintMsg('Database/Server error: Could not save complaint.')
+        } else if (res.status >= 500) {
+          setComplaintMsg(`Server error (${res.status}): ${data?.message || 'Could not save complaint.'}`)
         } else if (res.status === 400) {
           setComplaintMsg('Invalid request: ' + (data?.message || 'Check your input.'))
         } else {
-          setComplaintMsg('Error: ' + (data?.message || 'Could not send'))
+          setComplaintMsg(`Request failed (${res.status}): ${data?.message || (contentType.includes('text/html') ? 'The request reached a page, not the API. Check VITE_API_URL and backend CORS settings.' : 'Could not send the concern.')}`)
         }
       }
     } catch (e) {
-      if (e.message.includes('Failed to fetch') || e.message.includes('NetworkError')) {
-        setComplaintMsg('Network error: Backend unavailable.')
+      if (e instanceof TypeError || e.message.includes('Failed to fetch') || e.message.includes('NetworkError')) {
+        setComplaintMsg('Network error: Cannot reach the backend. Check VITE_API_URL, backend availability, and CORS_ORIGINS.')
       } else {
         setComplaintMsg('Failed to send complaint: ' + e.message)
       }
@@ -234,7 +238,7 @@ export default function LabourMobileSafetyApp() {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] text-slate-500 font-mono">Sync: {syncDetails.lastSyncTime}</span>
+              <span className="text-[10px] text-slate-400 font-mono">Sync: {syncDetails.lastSyncTime}</span>
               <button
                 onClick={() => handleToggleTracking(!trackerState.enabled)}
                 className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-[11px]"
@@ -338,7 +342,7 @@ export default function LabourMobileSafetyApp() {
                   <BadgeAlert size={36} />
                   <span className="text-sm font-extrabold mt-1">HOLD 3s SOS</span>
                 </button>
-                <p className="text-[11px] text-slate-500">Hold button for 3 seconds to trigger emergency alert</p>
+                <p className="text-[11px] text-slate-400">Hold button for 3 seconds to trigger emergency alert</p>
               </div>
             )}
           </div>
@@ -346,19 +350,19 @@ export default function LabourMobileSafetyApp() {
           {/* Quick Info Grid */}
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-              <span className="text-slate-500 text-[10px] block">Current Zone</span>
+              <span className="text-slate-400 text-[10px] block">Current Zone</span>
               <span className="font-bold text-amber-400">{profile?.zoneId || 'Pit 4 Zone B'}</span>
             </div>
             <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-              <span className="text-slate-500 text-[10px] block">Nearest Exit</span>
+              <span className="text-slate-400 text-[10px] block">Nearest Exit</span>
               <span className="font-bold text-emerald-400">North Shaft (250m)</span>
             </div>
             <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-              <span className="text-slate-500 text-[10px] block">Shift</span>
+              <span className="text-slate-400 text-[10px] block">Shift</span>
               <span className="font-bold text-slate-300">{profile?.shift || 'Morning'}</span>
             </div>
             <div className="bg-slate-900 p-3 rounded-xl border border-slate-800">
-              <span className="text-slate-500 text-[10px] block">Status</span>
+              <span className="text-slate-400 text-[10px] block">Status</span>
               <span className="font-bold text-emerald-400">{profile?.status || 'ACTIVE'}</span>
             </div>
           </div>

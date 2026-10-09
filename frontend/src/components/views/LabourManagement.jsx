@@ -1,3 +1,4 @@
+import { apiFetch } from '../../services/apiUrl.js'
 import { useState, useEffect } from 'react';
 import { Users, Search, Plus, Edit2, ShieldAlert, KeyRound, RefreshCw, X, CheckCircle, ShieldOff } from 'lucide-react';
 
@@ -28,7 +29,7 @@ export default function LabourManagement() {
     setLoading(true);
     try {
       const token = localStorage.getItem('mineguard_jwt_token');
-      const resp = await fetch('/api/supervisor/labour', {
+      const resp = await apiFetch('/api/supervisor/labour', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (resp.ok) {
@@ -55,7 +56,7 @@ export default function LabourManagement() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('mineguard_jwt_token');
-      const resp = await fetch('/api/supervisor/labour', {
+      const resp = await apiFetch('/api/supervisor/labour', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +82,7 @@ export default function LabourManagement() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('mineguard_jwt_token');
-      const resp = await fetch(`/api/supervisor/labour/${selectedLabour.workerId}`, {
+      const resp = await apiFetch(`/api/supervisor/labour/${selectedLabour.workerId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +106,7 @@ export default function LabourManagement() {
     if (!confirm(`Are you sure you want to mark this labour as ${newStatus}?`)) return;
     try {
       const token = localStorage.getItem('mineguard_jwt_token');
-      const resp = await fetch(`/api/supervisor/labour/${workerId}/status`, {
+      const resp = await apiFetch(`/api/supervisor/labour/${workerId}/status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -123,7 +124,7 @@ export default function LabourManagement() {
     if (!confirm(`Reset password for ${workerId}?`)) return;
     try {
       const token = localStorage.getItem('mineguard_jwt_token');
-      const resp = await fetch(`/api/supervisor/labour/${workerId}/reset-password`, {
+      const resp = await apiFetch(`/api/supervisor/labour/${workerId}/reset-password`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -174,7 +175,7 @@ export default function LabourManagement() {
         
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <div className="relative flex-1 sm:w-64">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input 
               type="text" placeholder="Search by name or ID..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
               className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-slate-950 border border-slate-700/60 text-slate-200 focus:border-amber-500 focus:outline-none"
@@ -222,16 +223,16 @@ export default function LabourManagement() {
             </thead>
             <tbody className="divide-y divide-slate-800 text-xs">
               {loading ? (
-                <tr><td colSpan="6" className="p-6 text-center text-slate-500">Loading...</td></tr>
+                <tr><td colSpan="6" className="p-6 text-center text-slate-400">Loading...</td></tr>
               ) : filteredLabours.length === 0 ? (
-                <tr><td colSpan="6" className="p-6 text-center text-slate-500">No labour records found.</td></tr>
+                <tr><td colSpan="6" className="p-6 text-center text-slate-400">No labour records found.</td></tr>
               ) : filteredLabours.map(labour => (
                 <tr key={labour._id} className="hover:bg-slate-800/40 transition-colors">
                   <td className="p-4 font-mono font-semibold text-amber-400">{labour.workerId}</td>
                   <td className="p-4 font-semibold text-slate-200">{labour.name}</td>
                   <td className="p-4 text-slate-400">
                     <span className="block">{labour.mineId}</span>
-                    <span className="text-[10px] text-slate-500">{labour.zoneId}</span>
+                    <span className="text-[10px] text-slate-400">{labour.zoneId}</span>
                   </td>
                   <td className="p-4 text-slate-400">{labour.shift}</td>
                   <td className="p-4">

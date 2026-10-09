@@ -1,3 +1,4 @@
+import { apiFetch } from '../../services/apiUrl.js'
 import { useState, useEffect } from 'react'
 import {
   Brain, AlertTriangle, ShieldCheck, Activity, CloudRain, Thermometer,
@@ -160,9 +161,12 @@ export default function RiskIntelligenceView() {
   const fetchPrediction = async (feats) => {
     setLoading(true)
     try {
-      const resp = await fetch('/api/risk/predict', {
+      const resp = await apiFetch('/api/risk/predict', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('mineguard_jwt_token') || ''}`
+        },
         body: JSON.stringify({ features: feats })
       })
       if (resp.ok) {
@@ -180,7 +184,9 @@ export default function RiskIntelligenceView() {
 
   const fetchMetrics = async () => {
     try {
-      const resp = await fetch('/api/risk/evaluate')
+      const resp = await apiFetch('/api/risk/evaluate', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('mineguard_jwt_token') || ''}` }
+      })
       if (resp.ok) {
         const data = await resp.json()
         setMetrics(data)
@@ -290,7 +296,7 @@ export default function RiskIntelligenceView() {
           <div className="text-center py-2">
             <div className={`text-6xl sm:text-7xl font-black tracking-tight ${colorStyle.text}`}>
               {prediction ? prediction.risk_score : '--'}
-              <span className="text-2xl text-slate-500 font-normal">/100</span>
+              <span className="text-2xl text-slate-400 font-normal">/100</span>
             </div>
             
             <div className="mt-4 space-y-1">
@@ -520,9 +526,9 @@ export default function RiskIntelligenceView() {
                 {metrics?.confusion_matrix?.map((row, i) => (
                   <div key={i} className="grid grid-cols-4 gap-1 py-0.5">
                     <span className="text-slate-400 font-bold">{metrics.labels[i]}</span>
-                    <span className={i === 0 ? "text-emerald-400 font-bold" : "text-slate-500"}>{row[0]}</span>
-                    <span className={i === 1 ? "text-amber-400 font-bold" : "text-slate-500"}>{row[1]}</span>
-                    <span className={i === 2 ? "text-red-400 font-bold" : "text-slate-500"}>{row[2]}</span>
+                    <span className={i === 0 ? "text-emerald-400 font-bold" : "text-slate-400"}>{row[0]}</span>
+                    <span className={i === 1 ? "text-amber-400 font-bold" : "text-slate-400"}>{row[1]}</span>
+                    <span className={i === 2 ? "text-red-400 font-bold" : "text-slate-400"}>{row[2]}</span>
                   </div>
                 ))}
               </div>

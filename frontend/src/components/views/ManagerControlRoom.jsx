@@ -81,7 +81,7 @@ function KpiCard({ icon: Icon, label, value, sub, color, trend }) {
       </div>
       <p className="text-2xl sm:text-3xl font-black text-slate-100 mb-0.5">{value}</p>
       <p className="text-xs sm:text-sm font-semibold text-slate-300">{label}</p>
-      {sub && <p className="text-xs text-slate-500 mt-0.5">{sub}</p>}
+      {sub && <p className="text-xs text-slate-400 mt-0.5">{sub}</p>}
     </div>
   )
 }
@@ -106,9 +106,9 @@ export default function ManagerControlRoom() {
         {/* Risk Gauge – special card */}
         <div className="col-span-2 sm:col-span-1 rounded-2xl border border-red-500/30 p-4 sm:p-5 flex flex-col items-center gap-1"
           style={{ background:'linear-gradient(135deg,rgba(127,29,29,0.25) 0%,#0d1520 100%)' }}>
-          <p className="text-xs text-slate-500 uppercase tracking-widest font-medium self-start mb-2">AI Mine Risk Score</p>
+          <p className="text-xs text-slate-400 uppercase tracking-widest font-medium self-start mb-2">AI Mine Risk Score</p>
           <RiskGauge score={78} />
-          <p className="text-xs text-slate-500 mt-1 text-center">Based on 14 live parameters</p>
+          <p className="text-xs text-slate-400 mt-1 text-center">Based on 14 live parameters</p>
         </div>
         <KpiCard icon={Users}         label="Active Underground" value="142" sub="Labours checked in" color="#10b981" trend="+4" />
         <KpiCard icon={AlertTriangle} label="Safety Violations"  value="3"   sub="Unresolved reports"  color="#ef4444" trend="⚠" />
@@ -126,7 +126,7 @@ export default function ManagerControlRoom() {
           </div>
           <div className="flex gap-2">
             <div className="relative">
-              <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search workers…"
                 className="pl-8 pr-3 py-2 rounded-xl border border-slate-600/40 bg-slate-800/60 text-slate-300 text-xs w-36 sm:w-44 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20" />
             </div>
@@ -145,7 +145,7 @@ export default function ManagerControlRoom() {
             <thead>
               <tr className="border-b border-slate-700/30">
                 {['Worker','Assigned Pit','Qualification','Check-in','GPS Zone','Actions'].map(h => (
-                  <th key={h} className="text-left px-4 sm:px-5 py-3 text-xs text-slate-500 uppercase tracking-wider font-medium">{h}</th>
+                  <th key={h} className="text-left px-4 sm:px-5 py-3 text-xs text-slate-400 uppercase tracking-wider font-medium">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -159,13 +159,13 @@ export default function ManagerControlRoom() {
                       </div>
                       <div>
                         <p className="font-semibold text-slate-200 text-sm">{w.name}</p>
-                        <p className="text-xs text-slate-500">{w.id}</p>
+                        <p className="text-xs text-slate-400">{w.id}</p>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 sm:px-5 py-3.5">
                     <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                      <MapPin size={11} className="text-slate-500 shrink-0" />
+                      <MapPin size={11} className="text-slate-400 shrink-0" />
                       <span className="truncate max-w-[140px]">{w.pit}</span>
                     </div>
                   </td>
@@ -177,13 +177,13 @@ export default function ManagerControlRoom() {
                   </td>
                   <td className="px-4 sm:px-5 py-3.5">
                     <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                      <Clock size={11} className="text-slate-500" />{w.checkin}
+                      <Clock size={11} className="text-slate-400" />{w.checkin}
                     </div>
                   </td>
                   <td className="px-4 sm:px-5 py-3.5">
                     <div className="flex items-center gap-1.5">
                       <div className={`w-1.5 h-1.5 rounded-full ${w.active ? 'bg-emerald-400 animate-pulse' : 'bg-slate-600'}`} />
-                      <span className={`text-xs font-medium ${w.active ? 'text-emerald-400' : 'text-slate-500'}`}>{w.zone}</span>
+                      <span className={`text-xs font-medium ${w.active ? 'text-emerald-400' : 'text-slate-400'}`}>{w.zone}</span>
                     </div>
                   </td>
                   <td className="px-4 sm:px-5 py-3.5">
@@ -203,7 +203,7 @@ export default function ManagerControlRoom() {
             </tbody>
           </table>
           {filtered.length === 0 && (
-            <div className="text-center py-10 text-slate-500 text-sm">No workers match your search.</div>
+            <div className="text-center py-10 text-slate-400 text-sm">No workers match your search.</div>
           )}
         </div>
       </div>
@@ -213,7 +213,7 @@ export default function ManagerControlRoom() {
         <div className="rounded-2xl border border-blue-500/30 p-4 sm:p-5 space-y-3" style={{ background:'rgba(23,37,84,0.4)' }}>
           <div className="flex items-center justify-between">
             <h4 className="font-semibold text-blue-300 text-sm flex items-center gap-2"><Shield size={14} />Safety Passport — {passportId}</h4>
-            <button onClick={() => setPassportId(null)} className="text-slate-500 hover:text-slate-300"><XCircle size={16} /></button>
+            <button onClick={() => setPassportId(null)} className="text-slate-400 hover:text-slate-300"><XCircle size={16} /></button>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
             {['DGMS Permit: Valid','Equipment Class A: Valid','Medical Fitness: ⚠️ 12 Days','Gas Rescue: Valid'].map(t => (
@@ -226,7 +226,7 @@ export default function ManagerControlRoom() {
         <div className="rounded-2xl border border-amber-500/30 p-4 sm:p-5 space-y-3" style={{ background:'rgba(92,51,0,0.25)' }}>
           <div className="flex items-center justify-between">
             <h4 className="font-semibold text-amber-300 text-sm flex items-center gap-2"><MapPin size={14} />Reassign Pit — {reassignId}</h4>
-            <button onClick={() => setReassignId(null)} className="text-slate-500 hover:text-slate-300"><XCircle size={16} /></button>
+            <button onClick={() => setReassignId(null)} className="text-slate-400 hover:text-slate-300"><XCircle size={16} /></button>
           </div>
           <div className="flex flex-wrap gap-2">
             {['Pit 1 – Surface','Pit 2 – Open Cast','Pit 4 – UG Zone B','Pit 5 – Open Cast','Pit 6 – Prep Plant'].map(p => (
@@ -264,8 +264,8 @@ export default function ManagerControlRoom() {
                   </div>
                   <p className="text-xs text-slate-400 truncate">{alert.worker}</p>
                   <div className="flex flex-wrap items-center gap-3 mt-1">
-                    <span className="flex items-center gap-1 text-xs text-slate-500"><MapPin size={10} />{alert.location}</span>
-                    <span className="flex items-center gap-1 text-xs text-slate-500"><Clock size={10} />{alert.time}</span>
+                    <span className="flex items-center gap-1 text-xs text-slate-400"><MapPin size={10} />{alert.location}</span>
+                    <span className="flex items-center gap-1 text-xs text-slate-400"><Clock size={10} />{alert.time}</span>
                   </div>
                 </div>
                 <button className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-colors">

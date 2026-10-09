@@ -35,7 +35,7 @@ export const logDailyProduction = async (req, res) => {
 
     return res.status(200).json({ success: true, message: 'Production logged successfully', data: record });
   } catch (error) {
-    console.error('Production save failed:',error.name,error.code||'');
+    console.error('[production] operation failed.');
     return res.status(error.name==='MongoNetworkError'||error.name==='MongooseError'?503:500).json({ success: false, message: error.name==='MongoNetworkError'||error.name==='MongooseError'?'Database is not responding. Production was not saved; reconnect MongoDB and retry.':'Could not save production record.' });
   }
 };

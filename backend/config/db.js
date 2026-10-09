@@ -14,7 +14,7 @@ const connectDB = async () => {
 
     // Listen to connection errors after initial connection
     mongoose.connection.on('error', (err) => {
-      console.error(`[MongoDB Error] Runtime error: ${err.message}`);
+      console.error('[db] operation failed.');
     });
 
     mongoose.connection.on('disconnected', () => {
@@ -33,7 +33,9 @@ const connectDB = async () => {
 
     return conn;
   } catch (error) {
-    console.warn(`[MongoDB Warning] Initial connection failed (${error.message}). Running with fallback in-memory mode.`);
+    // Do not echo connection error messages: drivers may include configured
+    // connection details in their diagnostics.
+    console.warn('[MongoDB Warning] Initial connection failed.');
   }
 };
 

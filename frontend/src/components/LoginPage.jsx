@@ -1,3 +1,4 @@
+import { apiFetch } from '../services/apiUrl.js'
 import { useState, useRef, useEffect } from 'react'
 import {
   ShieldCheck, HardHat, Stethoscope, Briefcase, MapPin, Lock,
@@ -45,7 +46,7 @@ function Select({ options, value, onChange, placeholder, icon: Icon }) {
         className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all duration-200 focus:outline-none
           ${open ? 'bg-slate-700/60 border-amber-500/70 ring-2 ring-amber-500/20' : 'bg-slate-800/60 border-slate-600/50 hover:border-slate-500'}`}>
         {Icon && <Icon size={15} className="text-slate-400 shrink-0" />}
-        <span className={`flex-1 text-sm truncate ${value ? 'text-slate-200' : 'text-slate-500'}`}>{value || placeholder}</span>
+        <span className={`flex-1 text-sm truncate ${value ? 'text-slate-200' : 'text-slate-400'}`}>{value || placeholder}</span>
         <ChevronDown size={15} className={`text-slate-400 shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
@@ -86,7 +87,7 @@ function PinInput({ value, onChange }) {
           value={value[i] || ''} onChange={e => handleChange(i, e.target.value)} onKeyDown={e => handleKeyDown(i, e)}
           className="w-12 h-12 sm:w-14 sm:h-14 text-center text-xl font-bold rounded-xl border border-slate-600/50 bg-slate-800/60
             text-amber-400 caret-amber-400 focus:outline-none focus:border-amber-500/70 focus:ring-2 focus:ring-amber-500/20
-            focus:bg-slate-700/60 transition-all duration-200 placeholder-slate-600"
+            focus:bg-slate-700/60 transition-all duration-200 placeholder-slate-400"
           placeholder="•" />
       ))}
     </div>
@@ -121,7 +122,7 @@ export default function LoginPage({ onLogin }) {
       (workerId || 'MED-901')
 
     try {
-      const resp = await fetch('/api/auth/login', {
+      const resp = await apiFetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -206,7 +207,7 @@ export default function LoginPage({ onLogin }) {
 
             {/* Role Tabs */}
             <div className="mb-5">
-              <p className="text-xs text-slate-500 uppercase tracking-widest mb-2 font-medium">Select Role</p>
+              <p className="text-xs text-slate-400 uppercase tracking-widest mb-2 font-medium">Select Role</p>
               <div className="flex rounded-xl p-1 gap-1 bg-slate-950 border border-slate-800">
                 {ROLES.map(({ id, shortLabel, icon: Icon }) => (
                   <button key={id} type="button" onClick={() => { setActiveRole(id); setErrorMessage(''); setWorkerId(''); setPassword(''); }}
@@ -226,21 +227,21 @@ export default function LoginPage({ onLogin }) {
                   <label className="text-xs text-slate-400 font-medium flex items-center gap-1.5"><User size={12} />Registered Worker ID</label>
                   <div className="relative">
                     <input type="text" value={workerId} onChange={e => setWorkerId(e.target.value)} placeholder="e.g. MG-LAB-0001"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-600/50 bg-slate-800/60 text-slate-200 text-sm placeholder-slate-600 focus:outline-none focus:border-amber-500" required />
-                    <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-600/50 bg-slate-800/60 text-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-amber-500" required />
+                    <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs text-slate-400 font-medium flex items-center gap-1.5"><Lock size={12} />Password</label>
                   <div className="relative">
                     <input type={showPw ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter your password"
-                      className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-600/50 bg-slate-800/60 text-slate-200 text-sm placeholder-slate-600 focus:outline-none focus:border-amber-500" required={activeRole === 'labour'} />
-                    <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
-                    <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300">
+                      className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-600/50 bg-slate-800/60 text-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-amber-500" required={activeRole === 'labour'} />
+                    <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300">
                       {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                     </button>
                   </div>
-                  <p className="text-[11px] text-slate-500">Only Worker IDs authorized by your Supervisor can log in.</p>
+                  <p className="text-[11px] text-slate-400">Only Worker IDs authorized by your Supervisor can log in.</p>
                 </div>
               </>)}
 
@@ -249,8 +250,8 @@ export default function LoginPage({ onLogin }) {
                   <label className="text-xs text-slate-400 font-medium flex items-center gap-1.5"><Briefcase size={12} />Supervisor ID / Email</label>
                   <div className="relative">
                     <input type="text" value={workerId} onChange={e => setWorkerId(e.target.value)} placeholder="RISHI"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-600/50 bg-slate-800/60 text-slate-200 text-sm placeholder-slate-600 focus:outline-none focus:border-amber-500" required />
-                    <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-600/50 bg-slate-800/60 text-slate-200 text-sm placeholder-slate-400 focus:outline-none focus:border-amber-500" required />
+                    <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                   </div>
                 </div>
               </>)}

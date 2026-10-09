@@ -1,6 +1,7 @@
-﻿export const submitComplaintApi = async (message) => {
-  const token = localStorage.getItem('mineguard_token') || 'dummy-token';
-  const response = await fetch('/api/labour/complaint', {
+import { apiFetch } from './apiUrl.js'
+export const submitComplaintApi = async (message) => {
+  const token = localStorage.getItem('mineguard_jwt_token') || '';
+  const response = await apiFetch('/api/labour/complaint', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

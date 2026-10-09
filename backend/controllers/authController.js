@@ -3,8 +3,7 @@ import Worker from '../models/Worker.js';
 import WorkerLocation from '../models/WorkerLocation.js';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'mineguard_jwt_secret_key_2026';
+import { JWT_SECRET } from '../config/security.js';
 
 // In-Memory Database for registered workers
 import fs from 'fs';
@@ -77,18 +76,21 @@ const defaultWorkers = {
   }
 };
 
-let initialWorkers = defaultWorkers;
-if (fs.existsSync(DB_PATH)) {
-  try {
-    initialWorkers = JSON.parse(fs.readFileSync(DB_PATH, 'utf-8'));
-  } catch (e) {
-    console.error('Error parsing database.json', e);
-  }
-} else {
-  try {
-    fs.writeFileSync(DB_PATH, JSON.stringify(initialWorkers, null, 2));
-  } catch (e) {
-    console.error('Error creating database.json', e);
+const isProduction = process.env.NODE_ENV === 'production';
+let initialWorkers = isProduction ? {} : defaultWorkers;
+if (!isProduction) {
+  if (fs.existsSync(DB_PATH)) {
+    try {
+      initialWorkers = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
+    } catch {
+      console.error('[auth] operation failed.');
+    }
+  } else {
+    try {
+      fs.writeFileSync(DB_PATH, JSON.stringify(initialWorkers, null, 2));
+    } catch {
+      console.error('[auth] operation failed.');
+    }
   }
 }
 
@@ -97,12 +99,13 @@ const MEMORY_WORKER_LOCATIONS = new Map();
 
 let timeoutId = null;
 export const saveDB = () => {
+  if (isProduction) return;
   if (timeoutId) clearTimeout(timeoutId);
   timeoutId = setTimeout(() => {
     try {
       fs.writeFileSync(DB_PATH, JSON.stringify(MEMORY_WORKERS, null, 2));
     } catch (e) {
-      console.error('Error saving to DB', e);
+      console.error('[auth] operation failed.');
     }
   }, 10);
 };
@@ -193,7 +196,7 @@ export const loginWorker = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Error in loginWorker:', error);
+    console.error('[auth] operation failed.');
     return res.status(500).json({
       success: false,
       message: 'Server error during authentication.',
@@ -261,7 +264,7 @@ export const registerNewWorker = async (req, res) => {
       worker: newWorkerData
     });
   } catch (error) {
-    console.error('Error in registerNewWorker:', error);
+    console.error('[auth] operation failed.');
     return res.status(500).json({
       success: false,
       message: 'Failed to register worker.',
@@ -305,7 +308,7 @@ export const getWorkerProfile = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Error in getWorkerProfile:', error);
+    console.error('[auth] operation failed.');
     return res.status(500).json({
       success: false,
       message: 'Failed to fetch worker profile.',
@@ -369,7 +372,7 @@ export const getAllWorkers = async (req, res) => {
       sos_alerts
     });
   } catch (error) {
-    console.error('Error in getAllWorkers:', error);
+    console.error('[auth] operation failed.');
     return res.status(500).json({
       success: false,
       message: 'Failed to fetch workers.',
@@ -418,7 +421,7 @@ export const updateWorkerLocation = async (req, res) => {
       data: worker
     });
   } catch (error) {
-    console.error('Error in updateWorkerLocation:', error);
+    console.error('[auth] operation failed.');
     return res.status(500).json({
       success: false,
       message: 'Failed to update mine location.',
@@ -442,7 +445,7 @@ export const syncWorkerLocations = async (req, res) => {
     else MEMORY_WORKER_LOCATIONS.set(workerId,point);
     return res.status(200).json({ success: true, message: 'Latest worker location updated.', persisted:mongoose.connection.readyState===1 });
   } catch (err) {
-    console.error('Error syncing worker location:', err.name);
+    console.error('[auth] operation failed.');
     return res.status(500).json({ success: false, message: 'Could not update worker location.' });
   }
 };

@@ -1,3 +1,4 @@
+import { apiFetch } from '../services/apiUrl.js'
 import { useEffect, useRef, useState } from 'react'
 import { BellRing, MapPin, Volume2, VolumeX, X } from 'lucide-react'
 import { sirenAudioService } from '../utils/sirenAudio'
@@ -21,7 +22,7 @@ export default function SOSBroadcastListener() {
       if(!token||busy)return
       busy=true
       try{
-        const response=await fetch('/api/emergency/active',{headers:{Authorization:`Bearer ${token}`}})
+        const response=await apiFetch('/api/emergency/active',{headers:{Authorization:`Bearer ${token}`}})
         if(!response.ok) return
         const payload=await response.json()
         const active=Array.isArray(payload.incidents)?payload.incidents:[]

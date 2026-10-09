@@ -92,7 +92,7 @@ export default function Dashboard({ userRole, onLogout }) {
       <div className="flex flex-col items-center justify-center h-full text-center p-8">
         <ShieldCheck size={48} className="text-red-400 mb-4" />
         <h2 className="text-xl font-bold text-red-400 mb-2">Access Denied</h2>
-        <p className="text-slate-500 text-sm">Your role <strong className="text-slate-300">"{normalizedRole}"</strong> does not have a permitted dashboard.</p>
+        <p className="text-slate-400 text-sm">Your role <strong className="text-slate-300">"{normalizedRole}"</strong> does not have a permitted dashboard.</p>
         <button onClick={onLogout} className="mt-6 px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-sm font-semibold transition-colors">
           Sign Out
         </button>
@@ -116,7 +116,7 @@ export default function Dashboard({ userRole, onLogout }) {
         </div>
         <div className="flex-1 min-w-0">
           <p className={`text-sm font-semibold truncate ${active ? 'text-slate-900' : ''}`}>{item.label}</p>
-          <p className={`text-xs truncate ${active ? 'text-slate-800' : 'text-slate-600'}`}>{item.sub}</p>
+          <p className={`text-xs truncate ${active ? 'text-slate-800' : 'text-slate-400'}`}>{item.sub}</p>
         </div>
         {active && <ChevronRight size={14} className="text-slate-800 shrink-0" />}
       </button>
@@ -144,7 +144,7 @@ export default function Dashboard({ userRole, onLogout }) {
           </div>
           <div>
             <p className="font-extrabold text-sm" style={{ background: 'linear-gradient(90deg,#f59e0b,#fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>MineGuard AI</p>
-            <p className="text-xs text-slate-500">Governance Portal</p>
+            <p className="text-xs text-slate-400">Governance Portal</p>
           </div>
         </div>
       </div>
@@ -157,7 +157,7 @@ export default function Dashboard({ userRole, onLogout }) {
 
       {/* Nav */}
       <div className="flex-1 px-3 py-3 space-y-1.5 overflow-y-auto">
-        <p className="text-xs text-slate-600 uppercase tracking-widest font-medium px-2 mb-2">Navigation</p>
+        <p className="text-xs text-slate-400 uppercase tracking-widest font-medium px-2 mb-2">Navigation</p>
         {permittedNavItems.map(item => <NavLink key={item.id} item={item} />)}
       </div>
 
@@ -169,13 +169,13 @@ export default function Dashboard({ userRole, onLogout }) {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-slate-300 truncate">{roleLabel}</p>
-            <p className="text-xs text-slate-600 truncate">{normalizedRole === 'admin' ? 'Head Office' : 'Jharia Coalfields'}</p>
+            <p className="text-xs text-slate-400 truncate">{normalizedRole === 'admin' ? 'Head Office' : 'Jharia Coalfields'}</p>
           </div>
           <div className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
         </div>
         <button
           onClick={onLogout}
-          className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all text-sm"
+          className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all text-sm"
         >
           <LogOut size={15} /><span>Sign Out</span>
         </button>
@@ -186,7 +186,7 @@ export default function Dashboard({ userRole, onLogout }) {
   const currentNav = permittedNavItems.find(n => n.id === activeView) || permittedNavItems[0]
 
   return (
-    <div className="dashboard-light flex h-screen overflow-hidden" style={{ background: '#090d16' }}>
+    <div className="flex h-screen overflow-hidden" style={{ background: '#090d16' }}>
       <SOSBroadcastListener />
 
       {/* Desktop Sidebar */}
@@ -224,7 +224,7 @@ export default function Dashboard({ userRole, onLogout }) {
               {currentNav && <currentNav.icon size={14} className="text-amber-400 shrink-0" />}
               <h1 className="text-sm sm:text-base font-bold text-slate-100 truncate">{currentNav?.label}</h1>
             </div>
-            <p className="text-xs text-slate-500 hidden sm:block">MineGuard AI · Jharia Coalfields · DGMS Compliant</p>
+            <p className="text-xs text-slate-400 hidden sm:block">MineGuard AI · Jharia Coalfields · DGMS Compliant</p>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">

@@ -35,7 +35,7 @@ export const uploadOwnDocument = async (req,res) => {
     if (mongoose.connection.readyState !== 1) return res.status(503).json({ success:false, message:'Document storage is unavailable because MongoDB is not connected. Nothing was uploaded.' });
     const document = await WorkerDocument.create(data);
     return res.status(201).json({ success:true, document:withExpiry(document.toObject()) });
-  } catch (error) { console.error('Document upload failed:',error); return res.status(500).json({ success:false, message:'Document upload failed.' }); }
+  } catch (error) { console.error('[workerdocument] operation failed.'); return res.status(500).json({ success:false, message:'Document upload failed.' }); }
 };
 
 export const listMineDocuments = async (req,res) => {

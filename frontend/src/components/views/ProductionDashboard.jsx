@@ -1,3 +1,4 @@
+import { apiFetch } from '../../services/apiUrl.js'
 import React, { useState, useEffect } from 'react';
 import { Target, TrendingUp, Filter, Download } from 'lucide-react';
 
@@ -32,13 +33,13 @@ export default function ProductionDashboard() {
 
       // Monthly summary
       const mUrl = `/api/supervisor/production/monthly?mineId=${encodeURIComponent(mineId)}&month=${month}&year=${year}`;
-      const mRes = await fetch(mUrl, { headers });
+      const mRes = await apiFetch(mUrl, { headers });
       const mData = await mRes.json();
       if (mData.success) setMonthlyData(mData.data);
 
       // History (last 30 days)
       const hUrl = `/api/supervisor/production?mineId=${encodeURIComponent(mineId)}`;
-      const hRes = await fetch(hUrl, { headers });
+      const hRes = await apiFetch(hUrl, { headers });
       const hData = await hRes.json();
       if (hData.success) setHistoryData(hData.data);
     } catch (e) {
@@ -57,7 +58,7 @@ export default function ProductionDashboard() {
     setSubmitMsg('');
     try {
       const token = getToken();
-      const res = await fetch('/api/supervisor/production', {
+      const res = await apiFetch('/api/supervisor/production', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -160,7 +161,7 @@ export default function ProductionDashboard() {
           <div className="bg-slate-900 p-4 rounded-xl border border-slate-800">
             <div className="text-slate-400 text-xs mb-1 uppercase tracking-wider">Monthly Target</div>
             <div className="text-2xl font-bold text-white">
-              {monthlyData.totalTarget} <span className="text-sm text-slate-500">t</span>
+              {monthlyData.totalTarget} <span className="text-sm text-slate-400">t</span>
             </div>
           </div>
           <div className="bg-slate-900 p-4 rounded-xl border border-slate-800">
@@ -226,7 +227,7 @@ export default function ProductionDashboard() {
               );
             })}
             {(!monthlyData?.records || monthlyData.records.length === 0) && (
-              <div className="w-full flex items-center justify-center text-slate-500 text-sm h-full">
+              <div className="w-full flex items-center justify-center text-slate-400 text-sm h-full">
                 No records yet for this period
               </div>
             )}
@@ -345,7 +346,7 @@ export default function ProductionDashboard() {
             })}
             {historyData.length === 0 && (
               <tr>
-                <td colSpan={7} className="p-6 text-center text-slate-500">
+                <td colSpan={7} className="p-6 text-center text-slate-400">
                   No production records found. Log a shift above to get started.
                 </td>
               </tr>

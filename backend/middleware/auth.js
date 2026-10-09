@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'mineguard_jwt_secret_key_2026';
+import { JWT_SECRET } from '../config/security.js';
 
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;

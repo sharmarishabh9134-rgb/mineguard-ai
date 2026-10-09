@@ -74,7 +74,7 @@ function SOSButton() {
             <div className="flex items-center gap-2 text-xs text-slate-400"><MapPin size={11} /><span>GPS: Pit 4 – Underground Zone B</span></div>
             <div className="flex items-center gap-2 text-xs text-slate-400"><Phone size={11} /><span>Notified: Safety Officer + DGMS</span></div>
           </div>
-          <button onClick={reset} className="text-xs text-slate-500 hover:text-slate-300 underline transition-colors">Reset (demo)</button>
+          <button onClick={reset} className="text-xs text-slate-400 hover:text-slate-300 underline transition-colors">Reset (demo)</button>
         </div>
       ) : (
         <div className="space-y-3">
@@ -103,7 +103,7 @@ function SOSButton() {
               </div>
             </button>
           </div>
-          <p className="text-slate-500 text-xs">{holding ? `Hold… ${Math.round(progress / 100 * 3)}s / 3s` : 'Hold 3 seconds to trigger emergency'}</p>
+          <p className="text-slate-400 text-xs">{holding ? `Hold… ${Math.round(progress / 100 * 3)}s / 3s` : 'Hold 3 seconds to trigger emergency'}</p>
         </div>
       )}
     </div>
@@ -162,7 +162,7 @@ export default function LabourDashboard() {
 
           {/* Shift info */}
           <div className="flex sm:flex-col gap-3 sm:gap-2 text-right">
-            <div className="text-xs text-slate-500">Shift Start</div>
+            <div className="text-xs text-slate-400">Shift Start</div>
             <div className="text-lg font-bold text-amber-400">06:00 AM</div>
             <div className="flex items-center gap-1 text-xs text-slate-400"><Clock size={11} /><span>Shift 3 · 8h</span></div>
           </div>
@@ -170,7 +170,7 @@ export default function LabourDashboard() {
 
         {/* Progress bar */}
         <div className="mt-4 pt-4 border-t border-slate-700/40">
-          <div className="flex items-center justify-between text-xs text-slate-500 mb-1.5">
+          <div className="flex items-center justify-between text-xs text-slate-400 mb-1.5">
             <span>Shift Progress</span><span>5h 30m / 8h</span>
           </div>
           <div className="h-1.5 rounded-full bg-slate-700/50 overflow-hidden">
@@ -198,9 +198,9 @@ export default function LabourDashboard() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-slate-200 truncate">{cert.title}</p>
-                <p className={`text-xs mt-0.5 ${cert.status === 'warning' ? 'text-amber-400 font-semibold' : 'text-slate-500'}`}>{cert.expiry}</p>
+                <p className={`text-xs mt-0.5 ${cert.status === 'warning' ? 'text-amber-400 font-semibold' : 'text-slate-400'}`}>{cert.expiry}</p>
               </div>
-              <ChevronRight size={14} className="text-slate-600 shrink-0 hidden sm:block" />
+              <ChevronRight size={14} className="text-slate-400 shrink-0 hidden sm:block" />
             </div>
           ))}
         </div>
@@ -212,20 +212,20 @@ export default function LabourDashboard() {
           style={{ background:'linear-gradient(90deg,rgba(59,130,246,0.05) 0%,transparent 100%)' }}>
           <CloudRain size={16} className="text-blue-400 shrink-0" />
           <h3 className="font-semibold text-slate-200 text-sm">Site Environment & Weather</h3>
-          <span className="ml-auto text-xs text-slate-500 flex items-center gap-1"><Activity size={10} />Live</span>
+          <span className="ml-auto text-xs text-slate-400 flex items-center gap-1"><Activity size={10} />Live</span>
         </div>
         <div className="p-4 sm:p-5">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-xs text-slate-500 mb-1">Pit 4 – Underground Zone B</p>
+              <p className="text-xs text-slate-400 mb-1">Pit 4 – Underground Zone B</p>
               <div className="flex flex-wrap gap-2">
                 <Badge color="red"><Mountain size={11} />High Landslide Risk</Badge>
                 <Badge color="amber"><AlertTriangle size={11} />Flood Watch Active</Badge>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-3xl font-black text-blue-400">78<span className="text-lg font-normal text-slate-500">mm</span></p>
-              <p className="text-xs text-slate-500">Rainfall</p>
+              <p className="text-3xl font-black text-blue-400">78<span className="text-lg font-normal text-slate-400">mm</span></p>
+              <p className="text-xs text-slate-400">Rainfall</p>
             </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -238,7 +238,7 @@ export default function LabourDashboard() {
               <div key={label} className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-slate-800/40 border border-slate-700/30">
                 <Icon size={14} className={`${color} shrink-0`} />
                 <div>
-                  <p className="text-xs text-slate-500">{label}</p>
+                  <p className="text-xs text-slate-400">{label}</p>
                   <p className={`text-sm font-bold ${color}`}>{value}</p>
                 </div>
               </div>
@@ -279,7 +279,7 @@ export default function LabourDashboard() {
             </select>
             <textarea value={hazardNote} onChange={e => setHazardNote(e.target.value)}
               rows={3} placeholder="Describe the issue…"
-              className="w-full px-3 py-2.5 rounded-xl border border-slate-600/50 bg-slate-800/60 text-slate-300 text-sm placeholder-slate-600
+              className="w-full px-3 py-2.5 rounded-xl border border-slate-600/50 bg-slate-800/60 text-slate-300 text-sm placeholder-slate-400
                 focus:outline-none focus:border-amber-500/70 focus:ring-2 focus:ring-amber-500/20 resize-none" />
             <button onClick={submitHazard}
               className="w-full py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2"

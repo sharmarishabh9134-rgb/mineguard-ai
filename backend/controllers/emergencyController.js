@@ -23,7 +23,7 @@ export const getActiveSOSIncidents = async (req,res) => {
     });
     return res.json({success:true,incidents});
   }catch(error){
-    console.error('Active SOS lookup failed:',error.name);
+    console.error('[emergency] operation failed.');
     return res.status(500).json({success:false,message:'Could not load active SOS alerts.'});
   }
 };
@@ -81,7 +81,7 @@ export const createSOSIncident = async (req, res) => {
       incident: incidentPayload
     });
   } catch (error) {
-    console.error('Error in createSOSIncident:', error);
+    console.error('[emergency] operation failed.');
     return res.status(500).json({
       success: false,
       message: 'Failed to log emergency SOS incident.',
@@ -128,7 +128,7 @@ export const resolveSOSIncident = async (req, res) => {
       incident
     });
   } catch (error) {
-    console.error('Error in resolveSOSIncident:', error);
+    console.error('[emergency] operation failed.');
     return res.status(500).json({
       success: false,
       message: 'Failed to resolve incident.',

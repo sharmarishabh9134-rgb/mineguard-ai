@@ -9,7 +9,10 @@ if sys.platform == 'win32':
     except Exception:
         pass
 
-from ml.predict import MineRiskPredictor
+try:
+    from ml.predict import MineRiskPredictor
+except ImportError:
+    from predict import MineRiskPredictor
 
 PRESET_SCENARIOS = {
     "scenario_1_low_risk": {

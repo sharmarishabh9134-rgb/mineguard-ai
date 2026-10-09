@@ -1,3 +1,4 @@
+import { apiFetch } from './apiUrl.js'
 // Offline Location & SOS Synchronization Engine for MineGuard AI Labour Mobile App
 
 const QUEUE_KEY = 'mineguard_offline_locations'
@@ -131,7 +132,7 @@ class OfflineSyncEngine {
     try {
       // 1. Flush Location Queue
       if (locQueue.length > 0) {
-        const resp = await fetch('/api/labour/sync-locations', {
+        const resp = await apiFetch('/api/labour/sync-locations', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.token}` },
           body: JSON.stringify({ queued_points: locQueue })
@@ -144,7 +145,7 @@ class OfflineSyncEngine {
       // 2. Flush SOS Queue
       if (sosQueue.length > 0) {
         for (const sos of sosQueue) {
-          const response=await fetch('/api/emergency/sos', {
+          const response=await apiFetch('/api/emergency/sos', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.token}` },
             body: JSON.stringify({

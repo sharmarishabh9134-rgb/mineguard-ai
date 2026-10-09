@@ -17,7 +17,7 @@ export const getMineWeather = async (req, res) => {
     const weatherData = await fetchWeatherForMine(lat, lng);
     return res.status(200).json({ success: true, data: weatherData });
   } catch (err) {
-    console.error('Weather error:', err);
+    console.error('[weather] operation failed.');
     return res.status(500).json({ success: false, message: 'Failed to fetch weather', error: err.message });
   }
 };

@@ -1,3 +1,4 @@
+import { apiFetch } from '../services/apiUrl.js'
 import React, { useState, useEffect } from 'react';
 import { CloudRain, Wind, Thermometer, Droplets } from 'lucide-react';
 
@@ -25,7 +26,7 @@ export default function WeatherWidget({ mineId, simplified }) {
           ? `/api/weather?mineId=${encodeURIComponent(mineId)}`
           : '/api/weather';
 
-        const res = await fetch(url, {
+        const res = await apiFetch(url, {
           headers: { Authorization: `Bearer ${token}` }
         });
 

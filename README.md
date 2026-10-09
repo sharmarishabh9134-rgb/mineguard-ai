@@ -87,6 +87,45 @@ node dev.js
 
 Root `npm run build`, `npm run lint`, and `npm run preview` delegate to the frontend.
 
+### Voroa production deployment
+
+Deploy the full-stack Node service from the repository root (`/`). Voroa should
+install from the root `package-lock.json`, run `npm run build`, then start with
+`npm start`. The Express service serves the built `frontend/dist` application and
+its `/api` endpoints from the same origin. Set the health-check path to
+`/api/health`. Use Node.js 20.19+ or 22.12+.
+
+Set these backend environment variables in Voroa (never commit their values):
+
+- `NODE_ENV=production`
+- `MONGODB_URI` — production MongoDB connection string
+- `JWT_SECRET` — a unique, high-entropy signing secret
+- `PORT` — provided by Voroa
+- `ML_SERVICE_URL` and `ML_SERVICE_TOKEN` — required for live ML predictions;
+  the token must match the one configured on the ML service
+- `GOOGLE_API_KEY` — optional, for Gemini-backed assistant features
+- `CORS_ORIGINS` — optional comma-separated allowlist for trusted external web
+  clients; the bundled frontend is same-origin and does not need CORS
+
+For a separate Vercel frontend, set `VITE_API_URL` in Vercel to the backend
+origin (either `https://your-backend.example.com` or that origin followed by
+`/api`). Set the backend's `CORS_ORIGINS` to the exact Vercel site origin,
+without a path (for example, `https://your-app.vercel.app`). The API client
+normalizes an optional `/api` suffix, so the request path contains `/api` once.
+
+Deploy the Python ML service separately from the `/ml` root directory. Voroa
+installs `ml/requirements.txt`; use `gunicorn app:app --bind 0.0.0.0:$PORT` as
+the start command and `/health` as its health-check path. Set
+`NODE_ENV=production` and a private `ML_SERVICE_TOKEN` there. Keep the ML service
+private if the Voroa plan supports private networking; otherwise the shared
+service token is required for every non-health endpoint. Do not expose this
+token in frontend configuration.
+
+The Node production process requires a remote MongoDB URI and a unique JWT
+secret of at least 32 characters. It does not read or write the local JSON
+fallbacks, create demo worker records, and fails readiness when MongoDB is
+unavailable.
+
 ### 4. ML module (optional)
 
 ```bash
@@ -107,16 +146,19 @@ python app.py
 | Variable | Required | Default | Description |
 |---|---|---|---|
 | `PORT` | No | `5002` | Backend server port; deployment platforms can provide their own value |
-| `MONGODB_URI` | No | `mongodb://localhost:27017/mineguard_db` | MongoDB connection string |
+| `MONGODB_URI` | No (required in production) | `mongodb://localhost:27017/mineguard_db` | MongoDB connection string |
 | `NODE_ENV` | No | `development` | `development` or `production` |
 | `JWT_SECRET` | **Yes (prod)** | _(none)_ | Secret for signing JWT tokens |
 | `GOOGLE_API_KEY` | No | _(blank)_ | Gemini API key for AI assistant features |
+| `ML_SERVICE_URL` | No (required for live ML) | Local port `5001` in development | Base URL of the separately deployed ML API |
+| `ML_SERVICE_TOKEN` | No (required for live ML) | _(none)_ | Shared internal credential for Node-to-ML requests |
+| `CORS_ORIGINS` | No | Same-origin only | Comma-separated trusted browser origins |
 
 ### Frontend (`frontend/.env.example` -> `frontend/.env.local`)
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `VITE_API_URL` | No | `http://127.0.0.1:5002` | Backend API URL for Vite dev proxy |
+| `VITE_API_URL` | No | Same-origin API paths | Backend origin for the concern form in production and Vite dev proxy; optional trailing `/api` is normalized |
 
 > **Never commit `.env` or `.env.local` files.** They are excluded by `.gitignore`.
 > Use the `.env.example` files as templates.

@@ -17,7 +17,7 @@ export const fetchWeatherForMine = async (lat, lng) => {
     };
     return weatherCache[cacheKey];
   } catch (error) {
-    console.warn(`Weather API Error: ${error.message}. Using cache if available.`);
+    console.warn('[weather] operation failed.');
     if (weatherCache[cacheKey]) {
       return { ...weatherCache[cacheKey], cached: true };
     }

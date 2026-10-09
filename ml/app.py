@@ -1,5 +1,6 @@
 import os
 import sys
+import hmac
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import json
@@ -8,12 +9,44 @@ import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-from ml.predict import MineRiskPredictor
-from ml.train import train_and_save_pipeline
-from ml.test_pipeline import PRESET_SCENARIOS
+try:
+    from ml.predict import MineRiskPredictor
+    from ml.train import train_and_save_pipeline
+    from ml.test_pipeline import PRESET_SCENARIOS
+except ImportError:
+    # Also support Voroa's /ml service root, where these modules are top-level.
+    from predict import MineRiskPredictor
+    from train import train_and_save_pipeline
+    from test_pipeline import PRESET_SCENARIOS
 
 app = Flask(__name__)
-CORS(app)  # Enable Cross-Origin Resource Sharing for React frontend
+allowed_origins = [
+    origin.strip()
+    for origin in os.environ.get('CORS_ORIGINS', '').split(',')
+    if origin.strip()
+]
+CORS(app, origins=allowed_origins)
+
+if os.environ.get('NODE_ENV') == 'production' and not os.environ.get('ML_SERVICE_TOKEN', '').strip():
+    raise RuntimeError('ML_SERVICE_TOKEN must be configured in production.')
+
+
+@app.before_request
+def authenticate_ml_service_request():
+    if request.endpoint == 'health_check':
+        return None
+
+    expected_token = os.environ.get('ML_SERVICE_TOKEN', '')
+    if not expected_token:
+        if os.environ.get('NODE_ENV') == 'production':
+            return jsonify({'error': 'ML service authentication is not configured.'}), 503
+        return None
+
+    supplied_token = request.headers.get('X-ML-Service-Token', '')
+    if not hmac.compare_digest(supplied_token, expected_token):
+        return jsonify({'error': 'Authentication required.'}), 401
+
+    return None
 
 # Global predictor instance
 predictor = None
@@ -171,7 +204,7 @@ def predict_risk():
         res = pred_service.predict(sanitized)
         return jsonify(res), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Risk inference failed."}), 500
 
 @app.route('/api/risk/evaluate', methods=['GET'])
 def get_evaluation_metrics():

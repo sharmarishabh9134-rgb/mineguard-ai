@@ -74,7 +74,7 @@ export const recalculateMineRisk = async (req, res) => {
       data: updatedRisk
     });
   } catch (error) {
-    console.error('Error in recalculateMineRisk:', error);
+    console.error('[risk] operation failed.');
     return res.status(500).json({
       success: false,
       message: 'Failed to recalculate mine risk.',

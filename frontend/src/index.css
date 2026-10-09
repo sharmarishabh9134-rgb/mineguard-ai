@@ -10,10 +10,38 @@
   --color-emerald-600: #059669;
 }
 
+:root {
+  color-scheme: dark;
+  --mg-page: #090d16;
+  --mg-panel: #0f172a;
+  --mg-panel-raised: #1e293b;
+  --mg-text-primary: #f1f5f9;
+  --mg-text-secondary: #cbd5e1;
+  --mg-text-muted: #94a3b8;
+  --mg-border: #64748b;
+  --mg-input: #0f1929;
+  --mg-input-text: #f1f5f9;
+  --mg-focus: #fbbf24;
+  --mg-link: #7dd3fc;
+  --mg-success: #34d399;
+  --mg-warning: #fbbf24;
+  --mg-danger: #f87171;
+  --mg-info: #7dd3fc;
+}
+
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
+  color: var(--mg-text-primary);
+  background-color: var(--mg-page);
+}
+
+::placeholder { color: var(--mg-text-muted); opacity: 1; }
+
+:focus-visible {
+  outline: 2px solid var(--mg-focus);
+  outline-offset: 2px;
 }
 
 /* Subtle scanline overlay for industrial feel */
@@ -83,61 +111,26 @@ input:-webkit-autofill:focus {
   animation: float linear infinite;
 }
 
-/* Light dashboard theme. Keep the login screen and alert colors unchanged. */
-.dashboard-light {
-  color: #1e293b;
-  background: #f1f5f9 !important;
+:is(input, select, textarea) {
+  color: var(--mg-input-text);
+  background-color: var(--mg-input);
+  border-color: var(--mg-border);
 }
 
-.dashboard-light aside,
-.dashboard-light header {
-  background: #ffffff !important;
-  border-color: #dbe3ef !important;
+:is(input, select, textarea)::placeholder {
+  color: var(--mg-text-muted);
+  opacity: 1;
 }
 
-.dashboard-light main {
-  background: #f1f5f9 !important;
+:is(input, select, textarea):focus-visible {
+  border-color: var(--mg-focus);
+  outline-color: var(--mg-focus);
 }
 
-.dashboard-light [class*="bg-slate-950"] { background-color: #f1f5f9 !important; }
-.dashboard-light [class*="bg-slate-900"] { background-color: #ffffff !important; }
-.dashboard-light [class*="bg-slate-800"] { background-color: #f8fafc !important; }
-.dashboard-light [class*="bg-slate-700"] { background-color: #e8eef6 !important; }
-.dashboard-light [class*="border-slate-"] { border-color: #dbe3ef !important; }
-.dashboard-light [class*="text-slate-100"],
-.dashboard-light [class*="text-slate-200"],
-.dashboard-light [class*="text-slate-300"] { color: #1e293b !important; }
-.dashboard-light [class*="text-slate-400"],
-.dashboard-light [class*="text-slate-500"],
-.dashboard-light [class*="text-slate-600"] { color: #64748b !important; }
-.dashboard-light [class~="text-white"] { color: #1e293b !important; }
-.dashboard-light [class*="text-amber-"],
-.dashboard-light [class*="text-yellow-"] { color: #92400e !important; }
-.dashboard-light [class*="text-emerald-"],
-.dashboard-light [class*="text-green-"] { color: #166534 !important; }
-.dashboard-light [class*="text-sky-"],
-.dashboard-light [class*="text-blue-"] { color: #1e40af !important; }
-.dashboard-light [class*="text-red-"],
-.dashboard-light [class*="text-rose-"] { color: #991b1b !important; }
-.dashboard-light [class*="text-orange-"] { color: #9a3412 !important; }
-.dashboard-light [class*="text-violet-"],
-.dashboard-light [class*="text-purple-"] { color: #6b21a8 !important; }
-
-.dashboard-light [class*="bg-red-950"],
-.dashboard-light [class*="bg-rose-950"] { background-color: #fef2f2 !important; }
-.dashboard-light [class*="bg-emerald-950"],
-.dashboard-light [class*="bg-green-950"] { background-color: #f0fdf4 !important; }
-.dashboard-light [class*="bg-amber-950"],
-.dashboard-light [class*="bg-yellow-950"] { background-color: #fffbeb !important; }
-.dashboard-light [class*="bg-sky-950"],
-.dashboard-light [class*="bg-blue-950"] { background-color: #eff6ff !important; }
-.dashboard-light [class*="bg-violet-950"],
-.dashboard-light [class*="bg-purple-950"] { background-color: #faf5ff !important; }
-
-.dashboard-light input,
-.dashboard-light select,
-.dashboard-light textarea {
-  color: #1e293b;
-  background-color: #ffffff;
-  border-color: #cbd5e1;
+select option {
+  color: var(--mg-input-text);
+  background-color: var(--mg-input);
 }
+
+a:not([class]) { color: var(--mg-link); }
+a:not([class]):hover { color: #bae6fd; }

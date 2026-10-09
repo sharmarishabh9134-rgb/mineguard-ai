@@ -1,3 +1,4 @@
+import { apiFetch } from '../../services/apiUrl.js'
 import { useState, useEffect } from 'react'
 import {
   LayoutDashboard, MapPin, ShieldCheck, AlertTriangle, Users,
@@ -41,7 +42,7 @@ export default function SupervisorCommandCenter() {
     setLoading(true)
     try {
       const token=localStorage.getItem('mineguard_jwt_token')||''
-      const resp = await fetch('/api/supervisor/workers', {headers:{Authorization:`Bearer ${token}`}})
+      const resp = await apiFetch('/api/supervisor/workers', {headers:{Authorization:`Bearer ${token}`}})
       if (resp.ok) {
         const data = await resp.json()
         const fetchedWorkers = data.workers || []
@@ -77,7 +78,7 @@ export default function SupervisorCommandCenter() {
   const handleAcknowledgeSOS = async (alertId) => {
     try {
       sirenAudioService.stopSiren()
-      await fetch('/api/supervisor/sos-acknowledge', {
+      await apiFetch('/api/supervisor/sos-acknowledge', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ alert_id: alertId })
@@ -98,7 +99,7 @@ export default function SupervisorCommandCenter() {
 
     try {
       const token = localStorage.getItem('mineguard_jwt_token') || ''
-      const resp = await fetch('/api/supervisor/register-worker', {
+      const resp = await apiFetch('/api/supervisor/register-worker', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -313,7 +314,7 @@ export default function SupervisorCommandCenter() {
                 </div>
                 <p className="text-slate-400">Zone: <strong className="text-amber-400">{sos.zone_name}</strong></p>
                 <div className="flex justify-between items-center pt-2">
-                  <span className="text-[10px] text-slate-500">GPS: {sos.gps_status}</span>
+                  <span className="text-[10px] text-slate-400">GPS: {sos.gps_status}</span>
                   <button onClick={() => handleAcknowledgeSOS(sos.id)}
                     className="px-3 py-1 bg-red-600 hover:bg-red-500 text-white font-bold rounded-lg text-[11px] transition-colors">
                     Acknowledge & Mute Siren
@@ -375,7 +376,7 @@ export default function SupervisorCommandCenter() {
             </svg>
           </div>
 
-          <p className="text-[10px] text-slate-500">Workers appear after they allow location and keep sharing enabled. Dots are positioned relative to current GPS coordinates on this schematic; use each worker’s map link for the precise location.</p>
+          <p className="text-[10px] text-slate-400">Workers appear after they allow location and keep sharing enabled. Dots are positioned relative to current GPS coordinates on this schematic; use each worker’s map link for the precise location.</p>
           {locatedWorkers.length>0&&<div className="grid sm:grid-cols-2 gap-2">{locatedWorkers.map(w=><div key={w.worker_id} className="rounded-lg border border-slate-800 bg-slate-950/70 p-2 text-xs"><button onClick={()=>setSelectedWorker(w)} className="font-bold text-slate-200 hover:text-amber-300">{w.name} · {w.worker_id}</button><p className="mt-1 text-slate-400">{w.last_location.latitude.toFixed(5)}, {w.last_location.longitude.toFixed(5)} · {new Date(w.last_location.updatedAt).toLocaleTimeString()}</p><a className="text-sky-300" target="_blank" rel="noreferrer" href={`https://www.openstreetmap.org/?mlat=${w.last_location.latitude}&mlon=${w.last_location.longitude}#map=17/${w.last_location.latitude}/${w.last_location.longitude}`}>Open precise location</a></div>)}</div>}
 
           <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
@@ -397,7 +398,7 @@ export default function SupervisorCommandCenter() {
 
             <div className="space-y-2">
               <input type="text" placeholder="Search by Worker ID or Name..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700/60 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500" />
+                className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700/60 text-xs text-slate-200 placeholder-slate-400 focus:outline-none focus:border-amber-500" />
 
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <select value={zoneFilter} onChange={e => setZoneFilter(e.target.value)}
@@ -437,17 +438,17 @@ export default function SupervisorCommandCenter() {
 
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-                  <span className="text-slate-500 text-[10px] block">Assigned Zone</span>
+                  <span className="text-slate-400 text-[10px] block">Assigned Zone</span>
                   <span className="font-bold text-amber-400">{selectedWorker.zone_id}</span>
                 </div>
                 <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-                  <span className="text-slate-500 text-[10px] block">GPS Status</span>
+                  <span className="text-slate-400 text-[10px] block">GPS Status</span>
                   <span className="font-bold text-sky-400">{selectedWorker.gps_status}</span>
                 </div>
               </div>
 
               <div className="rounded-xl border border-slate-800 bg-slate-950 p-3 text-xs">
-                <span className="text-slate-500">Latest shared GPS</span>
+                <span className="text-slate-400">Latest shared GPS</span>
                 {selectedWorker.last_location?<><p className="mt-1 font-mono text-slate-200">{selectedWorker.last_location.latitude.toFixed(6)}, {selectedWorker.last_location.longitude.toFixed(6)}</p><p className="mt-1 text-slate-400">Accuracy ±{Math.round(selectedWorker.last_location.accuracy||0)} m · {new Date(selectedWorker.last_location.updatedAt).toLocaleString()}</p><a className="mt-1 inline-block text-sky-300" target="_blank" rel="noreferrer" href={`https://www.openstreetmap.org/?mlat=${selectedWorker.last_location.latitude}&mlon=${selectedWorker.last_location.longitude}#map=17/${selectedWorker.last_location.latitude}/${selectedWorker.last_location.longitude}`}>Open precise location</a></>:<p className="mt-1 text-slate-400">This worker has not shared a GPS position.</p>}
               </div>
 
@@ -457,7 +458,7 @@ export default function SupervisorCommandCenter() {
                   {selectedWorker.path?.map((pt, i) => (
                     <div key={i} className="flex justify-between">
                       <span>{i + 1}. {pt.name}</span>
-                      <span className="text-slate-500">{pt.timestamp}</span>
+                      <span className="text-slate-400">{pt.timestamp}</span>
                     </div>
                   ))}
                 </div>
@@ -465,7 +466,7 @@ export default function SupervisorCommandCenter() {
 
             </div>
           ) : (
-            <p className="text-xs text-slate-500 text-center py-6">Select a worker from the map or list to view path trace.</p>
+            <p className="text-xs text-slate-400 text-center py-6">Select a worker from the map or list to view path trace.</p>
           )}
 
         </div>

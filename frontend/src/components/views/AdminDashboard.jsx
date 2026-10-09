@@ -43,7 +43,7 @@ export default function AdminDashboard() {
         {STAT_CARDS.map(({ label, value, icon: Icon, color, bg, border }) => (
           <div key={label} className={`rounded-xl border p-4 ${bg} ${border}`}>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs text-slate-500 font-medium uppercase tracking-wide">{label}</span>
+              <span className="text-xs text-slate-400 font-medium uppercase tracking-wide">{label}</span>
               <Icon size={16} className={color} />
             </div>
             <p className={`text-2xl font-extrabold ${color}`}>{value}</p>
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
                   type === 'success' ? 'bg-emerald-400' : type === 'warning' ? 'bg-amber-400' : 'bg-blue-400'}`} />
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-slate-300 leading-relaxed">{action}</p>
-                  <p className="text-xs text-slate-600 mt-0.5">{time}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">{time}</p>
                 </div>
               </div>
             ))}
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
                 className={`w-full text-left px-4 py-3 rounded-xl border border-slate-700/40 bg-slate-800/40
                   hover:bg-slate-700/50 hover:border-${color}-500/30 transition-all duration-200 group`}>
                 <p className="text-sm font-semibold text-slate-200 group-hover:text-white">{label}</p>
-                <p className="text-xs text-slate-600 mt-0.5">{desc}</p>
+                <p className="text-xs text-slate-400 mt-0.5">{desc}</p>
               </button>
             ))}
           </div>
@@ -110,7 +110,7 @@ export default function AdminDashboard() {
           { label: 'DB Status',      value: 'Fallback (In-Memory)' },
         ].map(({ label, value }) => (
           <div key={label} className="text-center">
-            <p className="text-xs text-slate-500 uppercase tracking-widest">{label}</p>
+            <p className="text-xs text-slate-400 uppercase tracking-widest">{label}</p>
             <p className="text-sm font-bold text-slate-200 mt-0.5">{value}</p>
           </div>
         ))}

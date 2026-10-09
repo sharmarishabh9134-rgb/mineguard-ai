@@ -51,7 +51,7 @@ function BedBar({ total, avail }) {
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between text-xs">
-        <span className="text-slate-500">Bed Availability</span>
+        <span className="text-slate-400">Bed Availability</span>
         <span className="font-bold" style={{ color }}>{avail} / {total}</span>
       </div>
       <div className="h-2 rounded-full bg-slate-700/50 overflow-hidden">
@@ -84,7 +84,7 @@ export default function MedicalDashboard() {
               <Icon size={16} style={{ color }} className={pulse ? 'animate-pulse' : ''} />
             </div>
             <p className="text-2xl font-black text-slate-100">{value}</p>
-            <p className="text-xs text-slate-500 mt-0.5">{label}</p>
+            <p className="text-xs text-slate-400 mt-0.5">{label}</p>
           </div>
         ))}
       </div>
@@ -117,19 +117,19 @@ export default function MedicalDashboard() {
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2 mb-1">
                       <span className="font-bold text-slate-100 text-sm">{req.name}</span>
-                      <span className="text-xs text-slate-500">· {req.id}</span>
+                      <span className="text-xs text-slate-400">· {req.id}</span>
                       <span className={`px-2 py-0.5 rounded-full text-xs font-bold border ${cfg.badge}`}>{req.severity.toUpperCase()}</span>
                     </div>
                     <p className="text-xs text-slate-400 flex items-center gap-1.5 mb-1"><MapPin size={11} />{req.zone}</p>
                     <p className="text-xs text-slate-400 flex items-center gap-1.5"><Stethoscope size={11} />{req.injury}</p>
                     <div className="flex flex-wrap items-center gap-3 mt-2">
                       <span className={`flex items-center gap-1 text-xs font-semibold ${st.color}`}><StIcon size={11} />{st.label}</span>
-                      <span className="flex items-center gap-1 text-xs text-slate-500"><Clock size={10} />SOS at {req.time}</span>
+                      <span className="flex items-center gap-1 text-xs text-slate-400"><Clock size={10} />SOS at {req.time}</span>
                       <span className="flex items-center gap-1 text-xs text-emerald-400 font-semibold"><Navigation size={10} />ETA: {req.eta}</span>
                     </div>
                   </div>
 
-                  <ChevronRight size={14} className={`text-slate-600 shrink-0 transition-transform mt-1 ${isOpen ? 'rotate-90' : ''}`} />
+                  <ChevronRight size={14} className={`text-slate-400 shrink-0 transition-transform mt-1 ${isOpen ? 'rotate-90' : ''}`} />
                 </button>
 
                 {/* Expanded details */}
@@ -137,18 +137,18 @@ export default function MedicalDashboard() {
                   <div className="px-4 sm:px-5 pb-4 border-t border-slate-700/20">
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
                       <div className="rounded-xl border border-slate-700/30 p-3.5 bg-slate-800/30 space-y-1">
-                        <p className="text-xs text-slate-500 font-medium">Routed Facility</p>
+                        <p className="text-xs text-slate-400 font-medium">Routed Facility</p>
                         <p className="text-sm font-semibold text-slate-200">{req.facility}</p>
                         <div className="flex items-center gap-1.5 text-xs text-emerald-400">
                           <CheckCircle2 size={11} />Trauma Unit Ready
                         </div>
                       </div>
                       <div className="rounded-xl border border-slate-700/30 p-3.5 bg-slate-800/30 space-y-1">
-                        <p className="text-xs text-slate-500 font-medium">Ambulance ETA</p>
+                        <p className="text-xs text-slate-400 font-medium">Ambulance ETA</p>
                         <p className="text-3xl font-black text-amber-400">{req.eta}</p>
                       </div>
                       <div className="rounded-xl border border-slate-700/30 p-3.5 bg-slate-800/30 flex flex-col gap-2">
-                        <p className="text-xs text-slate-500 font-medium">Quick Actions</p>
+                        <p className="text-xs text-slate-400 font-medium">Quick Actions</p>
                         <button className="flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-lg bg-red-500/15 text-red-400 border border-red-500/25 hover:bg-red-500/25 transition-colors">
                           <Phone size={11} />Call Rescue Team
                         </button>

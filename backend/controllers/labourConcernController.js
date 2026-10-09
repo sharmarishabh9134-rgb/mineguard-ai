@@ -31,8 +31,18 @@ export const createLabourConcern = async (req, res) => {
     if (mongoose.connection.readyState !== 1) MEMORY_CONCERNS.unshift(saved);
     return res.status(201).json({ success: true, message: 'Concern sent to your supervisor.', data: saved, persisted: mongoose.connection.readyState === 1 });
   } catch (error) {
-    console.error('Labour concern submission failed:', error);
-    return res.status(500).json({ success: false, message: 'Could not submit concern.' });
+    const errorName = /^[A-Za-z][A-Za-z0-9]{0,60}$/.test(error?.name || '') ? error.name : 'Error';
+    const errorCode = Number.isInteger(error?.code) ? error.code : undefined;
+    // Never log the request, worker identity, photo, coordinates, or database error text.
+    console.error('[labour-concern] submission failed.', { name: errorName, code: errorCode });
+
+    if (error?.name === 'ValidationError' || error?.name === 'CastError') {
+      return res.status(400).json({ success: false, message: 'The concern contains invalid data. Check its type, location, and photo.' });
+    }
+    if (mongoose.connection.readyState !== 1 || /^Mongo(ServerSelection|Network)/.test(error?.name || '')) {
+      return res.status(503).json({ success: false, message: 'The database is temporarily unavailable. Your concern was not saved; please retry.' });
+    }
+    return res.status(500).json({ success: false, message: 'Could not save the concern. Please try again.' });
   }
 };
 
