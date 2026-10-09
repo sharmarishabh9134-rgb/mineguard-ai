@@ -5,18 +5,22 @@
  *   node dev.js
  *
  * Environment:
- *   API_PORT  — backend port (default 5002). Vite proxies /api to this port.
+ *   API_PORT  — backend port override (takes precedence over PORT).
+ *   PORT      — backend port (default 5002). Vite proxies /api to this port.
  */
 import { spawn } from 'node:child_process';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 
 const root       = fileURLToPath(new URL('.', import.meta.url));
 const backendDir = join(root, 'backend');
 const frontendDir = join(root, 'frontend');
-const vite       = join(frontendDir, 'node_modules', 'vite', 'bin', 'vite.js');
+const frontendVite = join(frontendDir, 'node_modules', 'vite', 'bin', 'vite.js');
+const rootVite     = join(root, 'node_modules', 'vite', 'bin', 'vite.js');
+const vite         = existsSync(frontendVite) ? frontendVite : rootVite;
 
-const apiPort = process.env.API_PORT || '5002';
+const apiPort = process.env.API_PORT || process.env.PORT || '5002';
 
 const children = [
   spawn(process.execPath, ['server.js'], {

@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "node dev.js",
-    "build": "vite build",
-    "lint": "oxlint",
-    "preview": "vite preview"
+    "build": "npm --prefix frontend run build",
+    "lint": "npm --prefix frontend run lint",
+    "preview": "npm --prefix frontend run preview"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

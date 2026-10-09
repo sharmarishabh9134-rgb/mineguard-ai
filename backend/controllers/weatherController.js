@@ -1,4 +1,4 @@
-import { fetchWeatherForMine } from '../server/services/weatherService.js';
+import { fetchWeatherForMine } from '../services/weatherService.js';
 import MineMap from '../models/MineMap.js';
 
 export const getMineWeather = async (req, res) => {

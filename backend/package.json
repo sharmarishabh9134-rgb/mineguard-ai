@@ -6,7 +6,8 @@
   "description": "MineGuard AI - Express + Socket.IO backend API",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "test": "node --test"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

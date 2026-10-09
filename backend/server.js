@@ -102,7 +102,7 @@ io.on('connection', (socket) => {
   });
 });
 
-let PORT = parseInt(process.env.PORT || '5000', 10);
+let PORT = parseInt(process.env.PORT || '5002', 10);
 
 const startServer = async () => {
   await connectDB();

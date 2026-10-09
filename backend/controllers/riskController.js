@@ -14,7 +14,7 @@ export const recalculateMineRisk = async (req, res) => {
       });
     }
 
-    const { fetchWeatherForMine } = await import('../server/services/weatherService.js');
+    const { fetchWeatherForMine } = await import('../services/weatherService.js');
     
     // Attempt to get live weather data for risk index
     let rain = parseFloat(rainfallMm) || 0;

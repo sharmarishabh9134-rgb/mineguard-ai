@@ -18,7 +18,6 @@ ml/
 ├── evaluate.py               # Empirical model metrics calculator (Accuracy, Precision, Recall, F1, CM)
 ├── test_pipeline.py          # Scenario automated test suite (Low, Medium, High, Anomaly)
 ├── app.py                    # Flask REST API server (Port 5001)
-├── README.md                 # Complete technical documentation
 └── models/
     ├── risk_model.joblib      # Trained Random Forest classifier artifact
     ├── anomaly_model.joblib   # Trained Isolation Forest anomaly detector artifact

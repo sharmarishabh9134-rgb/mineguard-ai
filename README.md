@@ -34,7 +34,7 @@ mineguard-ai/
 |   |-- predict.py            # Inference
 |   |-- preprocessing.py
 |   |-- data/                 # Training dataset
-|   +-- models/               # Trained model artifacts (not in Git)
+|   +-- models/               # Trained model artifacts used by inference
 |-- docs/                     # Project documentation
 |   +-- AI_SETUP.md           # AI/ML setup guide
 |-- dev.js                    # Root dev launcher (starts backend + frontend)
@@ -59,7 +59,7 @@ cp .env.example .env
 npm run dev
 ```
 
-API available at: `http://localhost:5000`
+API available at: `http://localhost:5002` by default. Set `PORT` to override it.
 
 ### 2. Frontend
 
@@ -75,12 +75,17 @@ Frontend available at: `http://localhost:5173`
 
 The frontend automatically proxies all `/api/*` requests to the backend via Vite's dev proxy.
 
+From the repository root, `npm run dev` starts both applications. The launcher uses
+`API_PORT` when set, then `PORT`, and otherwise defaults to `5002`.
+
 ### 3. Run both together (from repo root)
 
 ```bash
 # From repo root - launches backend + frontend concurrently
 node dev.js
 ```
+
+Root `npm run build`, `npm run lint`, and `npm run preview` delegate to the frontend.
 
 ### 4. ML module (optional)
 
@@ -101,7 +106,7 @@ python app.py
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `PORT` | No | `5000` | Backend server port |
+| `PORT` | No | `5002` | Backend server port; deployment platforms can provide their own value |
 | `MONGODB_URI` | No | `mongodb://localhost:27017/mineguard_db` | MongoDB connection string |
 | `NODE_ENV` | No | `development` | `development` or `production` |
 | `JWT_SECRET` | **Yes (prod)** | _(none)_ | Secret for signing JWT tokens |
@@ -145,3 +150,17 @@ python app.py
 - `GOOGLE_API_KEY` is server-side only — never exposed to frontend
 
 See [docs/AI_SETUP.md](docs/AI_SETUP.md) for AI/ML setup instructions.
+See [docs/ml-setup.md](docs/ml-setup.md) for ML model, data, and API details.
+
+## Validation
+
+```bash
+cd backend
+npm test
+cd ..
+python ml/test_pipeline.py
+```
+
+The backend test checks that all local relative imports resolve. The Python command
+runs the four ML risk scenarios. Build and lint the frontend from the repository root
+with `npm run build` and `npm run lint`.
