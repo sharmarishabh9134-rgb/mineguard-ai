@@ -5,19 +5,18 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
 # Dependencies
-node_modules
+node_modules/
 
 # Build output
-dist
-dist-ssr
-build
-.cache
+dist/
+dist-ssr/
+build/
+.cache/
 *.local
 
-# Environment & Secrets — NEVER COMMIT THESE
+# Environment & Secrets - NEVER COMMIT THESE
 .env
 .env.*
 .env.local
@@ -30,23 +29,16 @@ build
 *.pem
 *.key
 *.cert
-*.p12
 secrets/
-credentials/
 
-# Editor directories and files
+# Editor directories
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-Thumbs.db
+.idea/
 
 # OS files
+.DS_Store
+Thumbs.db
 Desktop.ini
 
 # Test artifacts
@@ -54,21 +46,28 @@ test-results.txt
 coverage/
 *.lcov
 
-# Python (ML folder)
+# Python (ML module)
 __pycache__/
 *.py[cod]
 *.pyo
-*.pyd
 .Python
-*.egg-info/
-.eggs/
 venv/
 .venv/
 env/
+
+# ML model artifacts (large binary files - use Git LFS or object storage)
 *.pkl
+*.joblib
 *.h5
-*.model
+*.onnx
+*.pt
+*.pth
+
+# Next.js / Vite
+.next/
+out/
+*.tsbuildinfo
 
 # Misc
-.temp/
 tmp/
+.temp/

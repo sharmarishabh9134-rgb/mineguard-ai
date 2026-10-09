@@ -1,0 +1,92 @@
+{
+  "LAB-8842": {
+    "workerId": "LAB-8842",
+    "name": "Ramesh Kumar",
+    "role": "labour",
+    "assignedMineLocation": "Jharia Coalfields – Pit 4",
+    "safetyClearance": true,
+    "qualifications": [
+      {
+        "title": "DGMS Safety Permit",
+        "regCode": "DGMS-2024-88",
+        "expiryDate": "2026-12-31T00:00:00.000Z",
+        "status": "VALID"
+      }
+    ]
+  },
+  "LAB-9012": {
+    "workerId": "LAB-9012",
+    "name": "Suresh Patel",
+    "role": "labour",
+    "assignedMineLocation": "Jharia Coalfields – Tunnel B",
+    "safetyClearance": true,
+    "qualifications": [
+      {
+        "title": "Heavy Equipment License",
+        "regCode": "HEAVY-2024-90",
+        "expiryDate": "2026-08-30T00:00:00.000Z",
+        "status": "VALID"
+      }
+    ]
+  },
+  "RISHI": {
+    "workerId": "RISHI",
+    "name": "Rishi Sharma",
+    "role": "supervisor",
+    "assignedMineLocation": "Jharia Coalfields",
+    "safetyClearance": true,
+    "qualifications": [
+      {
+        "title": "Mine Management License Class A",
+        "regCode": "MGR-7741",
+        "expiryDate": "2027-08-15T00:00:00.000Z",
+        "status": "VALID"
+      }
+    ]
+  },
+  "ADM-0001": {
+    "workerId": "ADM-0001",
+    "name": "Admin Officer",
+    "role": "admin",
+    "assignedMineLocation": "Head Office",
+    "safetyClearance": true,
+    "qualifications": []
+  },
+  "LAB-9999": {
+    "workerId": "LAB-9999",
+    "name": "Rakesh",
+    "role": "labour",
+    "assignedMineLocation": "Jharia Coalfields – Pit 4",
+    "safetyClearance": true,
+    "status": "ACTIVE",
+    "qualifications": []
+  },
+  "MG-LAB-8878": {
+    "workerId": "MG-LAB-8878",
+    "name": "Persisted User",
+    "role": "labour",
+    "mineId": "Test Mine",
+    "passwordHash": "$2b$10$l0AWMATvASkjZKN.tzWYYuQPjg1TwP6gZ.jGJN0bXH0E.gSA7yEf6",
+    "mustChangePassword": true,
+    "createdBy": "RISHI",
+    "assignedMineLocation": "Test Mine",
+    "status": "ACTIVE"
+  },
+  "MG-LAB-8879": {
+    "workerId": "MG-LAB-8879",
+    "name": "ui",
+    "role": "labour",
+    "phone": "",
+    "email": "",
+    "mineId": "Raniganj Coalfields – Zone A",
+    "zoneId": "Zone A",
+    "shift": "Evening",
+    "contractorId": "",
+    "emergencyContact": "",
+    "passwordHash": "$2b$10$rNO5T6DoNn89iTqfaCiJ8.E2kJhwPnKnjJ3LhqTRq5Bf2x6VLayJS",
+    "mustChangePassword": true,
+    "createdBy": "RISHI",
+    "assignedMineLocation": "Raniganj Coalfields – Zone A",
+    "status": "ACTIVE"
+  }
+}
