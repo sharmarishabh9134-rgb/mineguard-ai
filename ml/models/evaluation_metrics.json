@@ -1,0 +1,48 @@
+{
+  "accuracy": 0.825,
+  "precision": 0.8432,
+  "recall": 0.825,
+  "f1_score": 0.8156,
+  "labels": [
+    "LOW",
+    "MEDIUM",
+    "HIGH"
+  ],
+  "confusion_matrix": [
+    [
+      7,
+      9,
+      0
+    ],
+    [
+      0,
+      113,
+      5
+    ],
+    [
+      0,
+      21,
+      45
+    ]
+  ],
+  "per_class": {
+    "LOW": {
+      "precision": 1.0,
+      "recall": 0.4375,
+      "f1_score": 0.6087,
+      "support": 16
+    },
+    "MEDIUM": {
+      "precision": 0.7902,
+      "recall": 0.9576,
+      "f1_score": 0.8659,
+      "support": 118
+    },
+    "HIGH": {
+      "precision": 0.9,
+      "recall": 0.6818,
+      "f1_score": 0.7759,
+      "support": 66
+    }
+  }
+}
