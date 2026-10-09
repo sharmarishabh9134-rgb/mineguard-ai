@@ -6,6 +6,10 @@ const mineMapSchema = new mongoose.Schema({
   mapUrl: { type: String },
   svgContent: { type: String },
   boundaries: { type: Object },
+  coordinates: {
+    lat: { type: Number },
+    lng: { type: Number }
+  },
   zones: [{
     zoneId: { type: String },
     name: { type: String },
